@@ -1,4 +1,4 @@
-package com.study.first_lab.DAO;
+package com.study.first_lab.dao;
 
 public class TaskDAOImpl {
 

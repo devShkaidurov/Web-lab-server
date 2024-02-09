@@ -1,4 +1,4 @@
-package com.study.first_lab.Controller;
+package com.study.first_lab.controller;
 
 import java.util.List;
 
@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.study.first_lab.DAO.ProjectDAOImpl;
-import com.study.first_lab.Other.Project;
+import com.study.first_lab.other.Project;
+import com.study.first_lab.service.MainService;
 
 @RestController
 @RequestMapping("/projects")
 public class MainComponent {
     @Autowired
-    private ProjectDAOImpl projectDAO;
+    private MainService service;
 
     @PostMapping
     public int creationProject() {
@@ -38,12 +37,13 @@ public class MainComponent {
 
     @GetMapping("/{projectId}")
     public Project getProject(@PathVariable("projectId") String name) {
-        return new Project();
+        System.out.println("nameProject");
+        return service.getProjectByName(name);
     }
 
     @GetMapping
     public List<Project> getProjectWithFilter(@RequestParam("start_date") String startTime,
             @RequestParam("start_date") String endTime) {
-        return new Project();
+        return null;
     }
 }

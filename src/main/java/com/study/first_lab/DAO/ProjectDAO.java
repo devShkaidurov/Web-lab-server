@@ -1,8 +1,7 @@
-package com.study.first_lab.DAO;
+package com.study.first_lab.dao;
 
 import java.sql.Date;
-
-import com.study.first_lab.Other.Project;
+import com.study.first_lab.other.Project;
 
 public interface ProjectDAO {
     public int createProject();
