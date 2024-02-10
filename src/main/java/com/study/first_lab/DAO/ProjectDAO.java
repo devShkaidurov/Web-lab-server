@@ -1,16 +1,19 @@
 package com.study.first_lab.dao;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 import com.study.first_lab.other.Project;
 
 public interface ProjectDAO {
-    public int createProject();
+    public boolean createProject(Project project);
 
-    public int modifyProject(String nameProject);
+    public int modifyProject(Project project);
 
     public int deleteProject(String nameProject);
 
     public Project getProject(String nameProject);
 
-    public Project[] getProjectsWithFilter(Date startTime, Date finishTime);
+    public List<Project> getProjectsWithFilter(LocalDateTime startTime, LocalDateTime finishTime);
+
+    public List<Project> getAllProjects();
 }

@@ -1,17 +1,20 @@
 package com.study.first_lab.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.study.first_lab.other.Project;
+import com.study.first_lab.other.ProjectPojo;
 import com.study.first_lab.service.MainService;
 
 @RestController
@@ -21,29 +24,40 @@ public class MainComponent {
     private MainService service;
 
     @PostMapping
-    public int creationProject() {
-        return 200;
+    public ProjectPojo creationProject(@RequestBody ProjectPojo project) {
+        if (service.createProject(project))
+            return project;
+        else 
+            return null;
     }
 
-    @PutMapping("/{projectId}")
-    public int modifyProject(@PathVariable("projectId") String name) {
-        return 200;
+    @PutMapping("/{projectName}")
+    public int modifyProject(@PathVariable("projectName") String name, @RequestBody ProjectPojo project) {
+        if (service.updateProject(project) == 1) 
+            return 200;
+        else
+            return 404;
     }
 
-    @DeleteMapping("/{projectId}")
-    public int deleteProject(@PathVariable("projectId") String name) {
-        return 204;
+    @DeleteMapping("/{projectName}")
+    public int deleteProject(@PathVariable("projectName") String name) {
+        return service.deleteProjectByName(name);
     }
 
-    @GetMapping("/{projectId}")
-    public Project getProject(@PathVariable("projectId") String name) {
-        System.out.println("nameProject");
+    @GetMapping("/{projectName}")
+    public Project getProject(@PathVariable("projectName") String name) {
         return service.getProjectByName(name);
     }
 
     @GetMapping
-    public List<Project> getProjectWithFilter(@RequestParam("start_date") String startTime,
-            @RequestParam("start_date") String endTime) {
-        return null;
+    public List<ProjectPojo> getProjectWithFilter(@RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateTime,
+        @RequestParam("finish_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime finishDateTime) {
+        List<ProjectPojo> resultList = service.getProjectsWithFilter(startDateTime, finishDateTime);
+        return resultList;
+    }
+
+    @GetMapping("/all")
+    public List<ProjectPojo> getAllProjects() {
+        return service.getAllProjects();
     }
 }
