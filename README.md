@@ -2,7 +2,7 @@
   <img src="https://media.giphy.com/media/M9gbBd9nbDrOTu1Mqx/giphy.gif" width="100"/>
 </div>
 
-<div id="badges">
+<div id="badges" align="center">
   <a href="your-linkedin-URL">
     <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="Postgres Badge"/>
   </a>
@@ -14,6 +14,7 @@
   </a>
 </div>
 
+<div>
 Это мой учебный проект по курсу "Разработка WEB-приложений" на языке Java (фреймворк Spring).
 Он представляет из себя клиент-серверную архитектуру (в данный момент реализована только серверная часть).
 
@@ -24,3 +25,4 @@
 - перейти в папку /sql и выполнить файл create_DB_and_schemas.sql через pgAdmin (если Вы опытный пользователь, то выполнить где угодно)
 - запустить проект, он запустится на порту 8080
 - поскольку клиента нет, через web.postman.co отправляем запросы на сервер, получая ответы
+</div>
