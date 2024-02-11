@@ -1,9 +1,6 @@
 package com.study.first_lab.dao;
 
-import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -45,18 +42,17 @@ public class ProjectDAOImpl implements ProjectDAO {
         }
     }
 
-    public int modifyProject(Project project) {
+    public int modifyProject(String name, Project project) {
         return jdbcTemplate.update("update Project SET nameProject = ?, descriptionProject = ?, startDateTime = ?, finishDateTime = ? WHERE nameProject = ?",
-            new Object[] { project.getNameProject(), project.getDescriptionProject(), project.getStartDateTime(), project.getFinishDateTime(), project.getNameProject() }
+            new Object[] { project.getNameProject(), project.getDescriptionProject(), project.getStartDateTime(), project.getFinishDateTime(), name }
         );
     }
 
-    public int deleteProject(String nameProject) {
+    public void deleteProject(String nameProject) {
         Map<String, String> param = Map.of("nameProject", nameProject);
-        int result = namedParameterJdbcTemplate.update("DELETE from Project where nameProject = :nameProject", param);
+        namedParameterJdbcTemplate.update("DELETE from Project where nameProject = :nameProject", param);
         // result = 1 -> deleted
         // result = 0 -> not found PK
-        return 204;
     }
 
     public Project getProject(String nameProject) {
@@ -71,7 +67,7 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     public List<Project> getProjectsWithFilter(LocalDateTime startTime, LocalDateTime finishTime) {
-        return jdbcTemplate.query("select * from project where startdatetime < ? and finishdatetime > ?", 
+        return jdbcTemplate.query("select * from project where startdatetime > ? and finishdatetime < ?", 
             projectMapper,
             new Object[] { startTime, finishTime }
         );

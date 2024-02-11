@@ -17,8 +17,12 @@ public class MainService {
     @Autowired
     private ProjectDAOImpl projectDAO;
 
-    public Project getProjectByName(String nameProject) {
-        return projectDAO.getProject(nameProject);
+    public ProjectPojo getProjectByName(String nameProject) {
+        Project project = projectDAO.getProject(nameProject);
+        if (project != null)
+            return ProjectPojo.fromEntity(project);
+        else 
+            return null;
     }
     
     public boolean createProject(ProjectPojo pojo) {
@@ -26,13 +30,13 @@ public class MainService {
         return projectDAO.createProject(project);
     }
 
-    public int updateProject (ProjectPojo pojo) {
+    public int updateProject (String name, ProjectPojo pojo) {
         Project project = ProjectPojo.toEntity(pojo);
-        return projectDAO.modifyProject(project);
+        return projectDAO.modifyProject(name, project);
     }
 
-    public int deleteProjectByName (String projectName) {
-        return projectDAO.deleteProject(projectName);
+    public void deleteProjectByName (String projectName) {
+        projectDAO.deleteProject(projectName);
     }
 
     public List<ProjectPojo> getProjectsWithFilter (LocalDateTime start, LocalDateTime finish) {

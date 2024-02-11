@@ -7,9 +7,9 @@ import com.study.first_lab.other.Project;
 public interface ProjectDAO {
     public boolean createProject(Project project);
 
-    public int modifyProject(Project project);
+    public int modifyProject(String name, Project project);
 
-    public int deleteProject(String nameProject);
+    public void deleteProject(String nameProject);
 
     public Project getProject(String nameProject);
 
