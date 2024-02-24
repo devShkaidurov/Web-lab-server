@@ -1,3 +1,4 @@
+
 drop table Task;
 drop table Project;
 
@@ -12,6 +13,7 @@ create table if not exists Project
 
 create table if not exists Task 
 (
+
 	taskId bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	projectId bigint,
 	nameTask  CHARACTER VARYING(100),
