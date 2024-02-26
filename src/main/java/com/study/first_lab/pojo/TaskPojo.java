@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class TaskPojo {
     private long taskId;
-    private Project projectId;
+    private Project project;
     private String nameTask;
     private String descriptionTask;
     private Date plannedFinishDate;
@@ -21,7 +21,7 @@ public class TaskPojo {
     public static TaskPojo fromEntity (Task task) {
         TaskPojo pojo = new TaskPojo();
         pojo.setTaskId(task.getTaskId());
-        pojo.setProjectId(task.getProjectId());
+        pojo.setProject(task.getProject());
         pojo.setNameTask(task.getNameTask());
         pojo.setDescriptionTask(task.getDescriptionTask());
         pojo.setPlannedFinishDate(task.getPlannedFinishDate());
@@ -32,7 +32,7 @@ public class TaskPojo {
     public static Task toEntity (TaskPojo pojo) {
         Task task = new Task();
         task.setTaskId(pojo.getTaskId());
-        task.setProjectId(pojo.getProjectId());
+        task.setProject(pojo.getProject());
         task.setNameTask(pojo.getNameTask());
         task.setDescriptionTask(pojo.getDescriptionTask());
         task.setPlannedFinishDate(pojo.getPlannedFinishDate());

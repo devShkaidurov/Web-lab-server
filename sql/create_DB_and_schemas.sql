@@ -23,8 +23,14 @@ create table if not exists Task
 	FOREIGN KEY (projectId) references Project (projectId)
 );
 
+insert into project (project_id, name_project, description_project, start_date, finish_date) values 
+(1, 'Work task', 'This project contains working task', '2022-04-04', '2024-07-15');
 
-insert into project (projectId, nameProject, descriptionProject, startDate, finishDate) values 
-(2, 'second proj', 'this is 2', '2001-09-28', '2021-09-28');
+insert into task (task_id, project_id, name_task, description_task, planned_finish_date, is_completed) 
+values (2, 1, 'выполнить задачу #2', 'посмотреть редмайн', '2024-03-15', true);
 
+insert into task (task_id, project_id, name_task, description_task, planned_finish_date, is_completed) 
+values (1, 1, 'выполнить задачу #1', 'посмотреть редмайн', '2024-03-15', true);
+
+select * from task;
 select * from project;
