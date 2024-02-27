@@ -2,21 +2,20 @@ package com.study.first_lab.models;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name="task", 
+@Table(name="tasks", 
         schema="public")
 @Data
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
-    private long taskId;
+    private long id;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "project_id", 

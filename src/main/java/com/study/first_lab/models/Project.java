@@ -9,14 +9,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "project", 
+@Table(name = "projects", 
         schema = "public")
 @Data
 public class Project {
     @Id  
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private long projectId;
+    private long id;
 
     @Column
     private String nameProject;
@@ -30,7 +30,7 @@ public class Project {
     private Date   finishDate;
     
     @OneToMany(mappedBy = "project", 
-        fetch = FetchType.EAGER,
+        fetch = FetchType.LAZY,
         cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Task> tasks;
