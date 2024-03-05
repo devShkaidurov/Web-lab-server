@@ -1,5 +1,7 @@
 package com.study.first_lab.сontroller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,8 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<?> getProjectByDescFilter (@RequestParam("search") String phrase) {
-        return new ResponseEntity<>(projectService.getProjectByDescFilter(phrase), HttpStatus.OK);
+        List<ProjectPojo> listPojos = projectService.getProjectByDescFilter(phrase);
+        return new ResponseEntity<>(listPojos, listPojos == null || listPojos.size() == 0 ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
     @GetMapping("/{projectId}")
@@ -39,14 +42,13 @@ public class ProjectController {
 
     @PutMapping("/{projectId}")
     public ResponseEntity<?> updateProjectById (@PathVariable("projectId") long projectId, @RequestBody ProjectPojo projectPojo) {
-        return new ResponseEntity<>(projectService.updateProjectById(projectId, projectPojo), HttpStatus.OK);
+        ProjectPojo updatedProject = projectService.updateProjectById(projectId, projectPojo);
+        return new ResponseEntity<>(updatedProject, updatedProject == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
     @DeleteMapping("/{projectId}") 
     public ResponseEntity<?> deleteProjectById (@PathVariable("projectId") long projectId) {
-        return new ResponseEntity<>(projectService.deleteProjectById(projectId), HttpStatus.OK);
+        projectService.deleteProjectById(projectId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
- 
-
 }

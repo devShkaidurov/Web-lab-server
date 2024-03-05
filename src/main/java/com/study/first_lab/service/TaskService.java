@@ -24,14 +24,22 @@ public class TaskService {
     }
 
     public TaskPojo getTaskById (long projectId, long taskId) {
-        return null;
+        return TaskPojo.fromEntity(taskDAO.findById(taskId).get());
     }
     
-    public TaskPojo createTaskForProject (long projectId) {
+    public TaskPojo createTaskForProject (long projectId, TaskPojo taskPojo) {
+        Task task = TaskPojo.toEntity(taskPojo);
+        taskDAO.save(task);
+        return taskPojo;
+    }
+
+    public Object deleteTaskById (long projectId, long taskId) {
+        taskDAO.deleteById(taskId);
         return null;
     }
 
-    public TaskPojo deleteTaskById (long projectId, long taskId) {
+    public Object deleteCompletedTaskByProjectId (long projectId) {
+        taskDAO.deleteByIdAndIsCompletedTrue(projectId);
         return null;
     }
 }   

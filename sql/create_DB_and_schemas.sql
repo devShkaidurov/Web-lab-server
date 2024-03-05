@@ -26,10 +26,10 @@ create table if not exists Task
 insert into project (project_id, name_project, description_project, start_date, finish_date) values 
 (1, 'Work task', 'This project contains working task', '2022-04-04', '2024-07-15');
 
-insert into task (task_id, project_id, name_task, description_task, planned_finish_date, is_completed) 
+insert into tasks (task_id, project_id, name_task, description_task, planned_finish_date, is_completed) 
 values (2, 1, 'выполнить задачу #2', 'посмотреть редмайн', '2024-03-15', true);
 
-insert into task (task_id, project_id, name_task, description_task, planned_finish_date, is_completed) 
+insert into tasks (task_id, project_id, name_task, description_task, planned_finish_date, is_completed) 
 values (1, 1, 'выполнить задачу #1', 'посмотреть редмайн', '2024-03-15', true);
 
 select * from task;

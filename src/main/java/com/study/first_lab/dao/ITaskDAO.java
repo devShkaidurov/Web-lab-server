@@ -10,4 +10,8 @@ import com.study.first_lab.models.Task;
 // @Repository
 public interface ITaskDAO extends JpaRepository<Task, Long> {
     public List<Task> findByProjectId(long id);
+
+    public void deleteByIdAndIsCompletedTrue(long projectId);
+    
+    public void deleteAllByProjectId (long projectId);
 }
