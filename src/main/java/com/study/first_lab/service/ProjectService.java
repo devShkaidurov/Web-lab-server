@@ -1,6 +1,7 @@
 package com.study.first_lab.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.study.first_lab.dao.IProjectDAO;
 import com.study.first_lab.dao.ITaskDAO;
+import com.study.first_lab.dto.ProjectPojo;
 import com.study.first_lab.models.Project;
-import com.study.first_lab.pojo.ProjectPojo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +35,7 @@ public class ProjectService {
 
     public ProjectPojo createProject (ProjectPojo projectPojo) {
         Project project = ProjectPojo.toEntity(projectPojo);
-        project.setTasks(null);
+        project.setTasks(new ArrayList<>());
         return ProjectPojo.fromEntity(projectDAO.save(project));
     }
 
@@ -56,6 +57,17 @@ public class ProjectService {
     public void deleteProjectById (long projectId) {
         projectDAO.deleteById(projectId);
         taskDAO.deleteAllByProjectId (projectId);
+    }
+
+    public HashMap<Long, Long>  getOpenedTask () {
+        List<Object[]> result = projectDAO.findProjectsAndTaskCount();
+        HashMap<Long, Long> openedTaskDict = new HashMap<>(result.size());
+        for (int i = 0; i < result.size(); i++) {
+            long key = ((Long) result.get(i)[0]).longValue();
+            long value = ((Long) result.get(i)[1]).longValue();
+            openedTaskDict.put(key, value);
+        }
+        return openedTaskDict;
     }
 
     

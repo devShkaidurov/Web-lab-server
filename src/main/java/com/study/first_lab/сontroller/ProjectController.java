@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.study.first_lab.pojo.ProjectPojo;
+import com.study.first_lab.dto.ProjectPojo;
 import com.study.first_lab.service.ProjectService;
 
 @RestController
@@ -50,5 +50,10 @@ public class ProjectController {
     public ResponseEntity<?> deleteProjectById (@PathVariable("projectId") long projectId) {
         projectService.deleteProjectById(projectId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/open")
+    public ResponseEntity<?> getOpenedTasks () {
+        return new ResponseEntity<>(projectService.getOpenedTask(), HttpStatus.OK);
     }
 }

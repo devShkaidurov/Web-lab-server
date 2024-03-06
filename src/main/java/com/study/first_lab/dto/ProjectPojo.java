@@ -1,4 +1,4 @@
-package com.study.first_lab.pojo;
+package com.study.first_lab.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.study.first_lab.pojo;
+package com.study.first_lab.dto;
 
 import java.util.Date;
 
@@ -12,7 +12,6 @@ import lombok.Setter;
 @Setter
 public class TaskPojo {
     private long id;
-    private Project project;
     private String nameTask;
     private String descriptionTask;
     private Date plannedFinishDate;
@@ -21,7 +20,6 @@ public class TaskPojo {
     public static TaskPojo fromEntity (Task task) {
         TaskPojo pojo = new TaskPojo();
         pojo.setId(task.getId());
-        pojo.setProject(task.getProject());
         pojo.setNameTask(task.getNameTask());
         pojo.setDescriptionTask(task.getDescriptionTask());
         pojo.setPlannedFinishDate(task.getPlannedFinishDate());
@@ -32,7 +30,6 @@ public class TaskPojo {
     public static Task toEntity (TaskPojo pojo) {
         Task task = new Task();
         task.setId(pojo.getId());
-        task.setProject(pojo.getProject());
         task.setNameTask(pojo.getNameTask());
         task.setDescriptionTask(pojo.getDescriptionTask());
         task.setPlannedFinishDate(pojo.getPlannedFinishDate());

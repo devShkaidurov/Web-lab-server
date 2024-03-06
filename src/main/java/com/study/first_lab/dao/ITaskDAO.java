@@ -7,11 +7,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.study.first_lab.models.Task;
 
+import jakarta.transaction.Transactional;
+
 // @Repository
 public interface ITaskDAO extends JpaRepository<Task, Long> {
     public List<Task> findByProjectId(long id);
 
-    public void deleteByIdAndIsCompletedTrue(long projectId);
+    @Transactional
+    public void deleteAllByProjectIdAndIsCompletedTrue(long projectId);
     
     public void deleteAllByProjectId (long projectId);
+
+    public Task findByIdAndProjectId (long id, long projectId);
+
+    @Transactional
+    public void deleteByIdAndProjectId (long id, long projectId);
 }
