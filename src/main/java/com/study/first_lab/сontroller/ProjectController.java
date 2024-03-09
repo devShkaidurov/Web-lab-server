@@ -30,6 +30,8 @@ public class ProjectController {
         return new ResponseEntity<>(listPojos, listPojos == null || listPojos.size() == 0 ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
+    // Lab 3 - test
+    
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProjectById (@PathVariable("projectId") long projectId) {
         return new ResponseEntity<>(projectService.getProjectById(projectId), HttpStatus.OK);
