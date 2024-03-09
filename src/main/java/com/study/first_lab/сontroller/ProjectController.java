@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,25 +31,27 @@ public class ProjectController {
         return new ResponseEntity<>(listPojos, listPojos == null || listPojos.size() == 0 ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
-    // Lab 3 - test
-    
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProjectById (@PathVariable("projectId") long projectId) {
+        System.out.println("ID:" + projectId);
         return new ResponseEntity<>(projectService.getProjectById(projectId), HttpStatus.OK);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createProject (@RequestBody ProjectPojo ProjectPojo) {
         return new ResponseEntity<>(projectService.createProject(ProjectPojo), HttpStatus.OK);
     }
 
     @PutMapping("/{projectId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateProjectById (@PathVariable("projectId") long projectId, @RequestBody ProjectPojo projectPojo) {
         ProjectPojo updatedProject = projectService.updateProjectById(projectId, projectPojo);
         return new ResponseEntity<>(updatedProject, updatedProject == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
     @DeleteMapping("/{projectId}") 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteProjectById (@PathVariable("projectId") long projectId) {
         projectService.deleteProjectById(projectId);
         return new ResponseEntity<>(HttpStatus.OK);

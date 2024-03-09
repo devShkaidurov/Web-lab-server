@@ -3,6 +3,7 @@ package com.study.first_lab.сontroller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,12 +36,14 @@ public class TaskController {
     }  
     
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createTask (@PathVariable("projectId") long projectId,
         @RequestBody TaskDto taskDto) {
         return new ResponseEntity<>(taskService.createTaskForProject(projectId, taskDto), HttpStatus.OK);
     }
 
     @PutMapping("/{taskId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateTask (@PathVariable("projectId") long projectId, 
         @PathVariable("taskId") long taskId, 
         @RequestBody TaskDto taskDto) {
@@ -49,6 +52,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{taskId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteTaskById (@PathVariable("projectId") long projectId, 
         @PathVariable("taskId") long taskId) {
             taskService.deleteTaskById(projectId, taskId);
@@ -56,6 +60,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/clean")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteCompletedTask (@PathVariable("projectId") long projectId) {
         taskService.deleteCompletedTaskByProjectId(projectId);
         return new ResponseEntity<>(null, HttpStatus.OK);
