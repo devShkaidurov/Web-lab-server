@@ -1,4 +1,4 @@
-package com.study.first_lab.pojo;
+package com.study.first_lab.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import com.study.first_lab.models.Project;
 @Getter
 
 public class ProjectPojo {
-    private long   projectId;
+    private long   id;
     private String nameProject;
     private String descriptionProject;
     private Date   startDate;
@@ -17,7 +17,7 @@ public class ProjectPojo {
 
     public static ProjectPojo fromEntity (Project project) {
         ProjectPojo pojo = new ProjectPojo();
-        pojo.setProjectId(project.getProjectId());
+        pojo.setId(project.getId());
         pojo.setNameProject(project.getNameProject());
         pojo.setDescriptionProject(project.getDescriptionProject());
         pojo.setStartDate(project.getStartDate());
@@ -27,7 +27,7 @@ public class ProjectPojo {
 
     public static Project toEntity (ProjectPojo pojo) {
         Project project = new Project();
-        project.setProjectId(pojo.getProjectId());
+        project.setId(pojo.getId());
         project.setNameProject(pojo.getNameProject());
         project.setDescriptionProject(pojo.getDescriptionProject());
         project.setStartDate(pojo.getStartDate());

@@ -4,16 +4,19 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "project", schema = "public")
+@Table(name = "projects", 
+        schema = "public")
 @Data
 public class Project {
     @Id  
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private long projectId;
+    private long id;
 
     @Column
     private String nameProject;
@@ -26,6 +29,9 @@ public class Project {
     @Column
     private Date   finishDate;
     
-    @OneToMany(mappedBy = "projectId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", 
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Task> tasks;
 }
