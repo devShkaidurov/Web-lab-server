@@ -2,7 +2,6 @@ package com.study.first_lab.dto;
 
 import java.util.Date;
 
-import com.study.first_lab.models.Project;
 import com.study.first_lab.models.Task;
 
 import lombok.Getter;

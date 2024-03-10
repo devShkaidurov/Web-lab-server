@@ -3,14 +3,12 @@ package com.study.first_lab.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +36,6 @@ public class SecurityConfig {
         List<UserDetails> userDetailList = new ArrayList<>();
         for (int i = 0; i < logins.size(); i++) {
             if (passwords.get(i) != null && roles.get(i) != null) {
-                System.out.println(logins.get(i) + " added.");
                 userDetailList.add(User.builder().username(logins.get(i)).password(encoder.encode(passwords.get(i))).roles(roles.get(i)).build());
             } 
         }
@@ -45,15 +43,23 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthenticationSuccessHandler authSuccessHandler () {
+        SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+        handler.setUseReferer(true);
+        return handler;
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
-        System.out.println("CHAIN");
         return http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/projects/open").permitAll()
-                .requestMatchers("/projects/*").authenticated()
+                .requestMatchers("/projects/**").authenticated()
+                .anyRequest().permitAll()
             )
-            .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+            .formLogin(form -> form
+                .defaultSuccessUrl("/projects")
+                .permitAll())
             .build();
     }
 
