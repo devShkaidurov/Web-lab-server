@@ -2,10 +2,10 @@ package com.study.first_lab.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import com.study.first_lab.dao.IProjectDAO;
@@ -60,10 +60,13 @@ public class TaskService {
         }
     }
 
+    // TODO: спросить
+    @Transactional
     public void deleteTaskById (long projectId, long taskId) {
         taskDAO.deleteByIdAndProjectId(taskId, projectId);
     }
 
+    @Transactional
     public void deleteCompletedTaskByProjectId (long projectId) {
         taskDAO.deleteAllByProjectIdAndIsCompletedTrue(projectId);
     }
