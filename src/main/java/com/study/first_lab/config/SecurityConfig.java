@@ -32,39 +32,32 @@ public class SecurityConfig {
     private List<String> roles;
 
     @Bean
-    public UserDetailsService userDetailsService (PasswordEncoder encoder) {
+    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         List<UserDetails> userDetailList = new ArrayList<>();
         for (int i = 0; i < logins.size(); i++) {
             if (passwords.get(i) != null && roles.get(i) != null) {
-                userDetailList.add(User.builder().username(logins.get(i)).password(encoder.encode(passwords.get(i))).roles(roles.get(i)).build());
-            } 
+                userDetailList.add(User.builder().username(logins.get(i)).password(encoder.encode(passwords.get(i)))
+                        .roles(roles.get(i)).build());
+            }
         }
         return new InMemoryUserDetailsManager(userDetailList);
     }
 
     @Bean
-    public AuthenticationSuccessHandler authSuccessHandler () {
-        SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
-        handler.setUseReferer(true);
-        return handler;
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/projects/**").authenticated()
-                .anyRequest().permitAll()
-            )
-            .formLogin(form -> form
-                .defaultSuccessUrl("/projects")
-                .permitAll())
-            .build();
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/projects/**").authenticated()
+                        .anyRequest().permitAll())
+                .formLogin(form -> form
+                        .defaultSuccessUrl("/projects")
+                        .permitAll())
+                .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder () {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
