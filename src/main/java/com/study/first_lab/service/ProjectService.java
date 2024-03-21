@@ -3,6 +3,7 @@ package com.study.first_lab.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProjectService { 
+public class ProjectService {
     private final IProjectDAO projectDAO;
     private final ITaskDAO taskDAO;
 
@@ -35,19 +36,23 @@ public class ProjectService {
         return listPojos;
     }
 
-    public ProjectPojo getProjectById (long projectId) {
-        Project project = projectDAO.findById(projectId).get();
-        return ProjectPojo.fromEntity(project);
+    public ProjectPojo getProjectById(long projectId) {
+        try {
+            Project project = projectDAO.findById(projectId).get();
+            return ProjectPojo.fromEntity(project);
+        } catch (NoSuchElementException ex) {
+            return null;
+        }
     }
 
-    public ProjectPojo createProject (ProjectPojo projectPojo) {
+    public ProjectPojo createProject(ProjectPojo projectPojo) {
         Project project = ProjectPojo.toEntity(projectPojo);
         project.setTasks(new ArrayList<>());
         return ProjectPojo.fromEntity(projectDAO.save(project));
     }
 
-    public ProjectPojo updateProjectById (long projectId, ProjectPojo projectPojo) {
-        Project project = ProjectPojo.toEntity(projectPojo);    // I think it's needn't
+    public ProjectPojo updateProjectById(long projectId, ProjectPojo projectPojo) {
+        Project project = ProjectPojo.toEntity(projectPojo); // I think it's needn't
         Optional<Project> oldProject = projectDAO.findById(projectId);
         if (oldProject.isPresent()) {
             oldProject.get().setNameProject(project.getNameProject());
@@ -61,12 +66,12 @@ public class ProjectService {
         return null;
     }
 
-    public void deleteProjectById (long projectId) {
+    public void deleteProjectById(long projectId) {
         projectDAO.deleteById(projectId);
-        taskDAO.deleteAllByProjectId (projectId);
+        taskDAO.deleteAllByProjectId(projectId);
     }
 
-    public HashMap<Long, Long>  getOpenedTask () {
+    public HashMap<Long, Long> getOpenedTask() {
         List<Object[]> result = projectDAO.findProjectsAndTaskCount();
         HashMap<Long, Long> openedTaskDict = new HashMap<>(result.size());
         for (int i = 0; i < result.size(); i++) {
@@ -77,5 +82,4 @@ public class ProjectService {
         return openedTaskDict;
     }
 
-    
 }
