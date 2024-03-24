@@ -22,6 +22,7 @@ public class ProjectService {
     private final ITaskDAO taskDAO;
 
     public List<ProjectPojo> getProjectByDescFilter (Optional<String> phrase) {
+        System.out.println(phrase);
         List<ProjectPojo> listPojos = new ArrayList<>();
         if (phrase.isEmpty()) {
             List<Project> result = projectDAO.findAll();
