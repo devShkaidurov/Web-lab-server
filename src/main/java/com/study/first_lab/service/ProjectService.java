@@ -21,10 +21,17 @@ public class ProjectService {
     private final IProjectDAO projectDAO;
     private final ITaskDAO taskDAO;
 
-    public List<ProjectPojo> getProjectByDescFilter(String phrase) {
-        List<Project> resultList = projectDAO
-                .findByNameProjectIsContainingIgnoreCaseOrDescriptionProjectIsContainingIgnoreCase(phrase, phrase);
+    public List<ProjectPojo> getProjectByDescFilter (Optional<String> phrase) {
+        System.out.println(phrase);
         List<ProjectPojo> listPojos = new ArrayList<>();
+        if (phrase.isEmpty()) {
+            List<Project> result = projectDAO.findAll();
+            for (int i = 0; i < result.size(); i++)
+                listPojos.add(ProjectPojo.fromEntity(result.get(i)));
+            return listPojos;
+        }
+
+        List<Project> resultList = projectDAO.findByNameProjectIsContainingIgnoreCaseOrDescriptionProjectIsContainingIgnoreCase(phrase.get(), phrase.get());
         for (int i = 0; i < resultList.size(); i++)
             listPojos.add(ProjectPojo.fromEntity(resultList.get(i)));
         return listPojos;

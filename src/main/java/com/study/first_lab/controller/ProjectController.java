@@ -1,11 +1,12 @@
-package com.study.first_lab.сontroller;
+package com.study.first_lab.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.study.first_lab.dto.ProjectPojo;
 import com.study.first_lab.service.ProjectService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/projects")
 public class ProjectController {
@@ -26,12 +28,11 @@ public class ProjectController {
     private ProjectService projectService;
 
     @GetMapping
-    public ResponseEntity<?> getProjectByDescFilter(@RequestParam("search") String phrase) {
+    public ResponseEntity<?> getProjectByDescFilter (@RequestParam("search") Optional<String> phrase) {
         List<ProjectPojo> listPojos = projectService.getProjectByDescFilter(phrase);
         return new ResponseEntity<>(listPojos,
                 listPojos == null || listPojos.size() == 0 ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
-
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProjectById(@PathVariable("projectId") long projectId) {
         ProjectPojo project = projectService.getProjectById(projectId);

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.study.first_lab.models.Project;
 @Setter
 @Getter
@@ -12,7 +13,9 @@ public class ProjectPojo {
     private long   id;
     private String nameProject;
     private String descriptionProject;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date   startDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date   finishDate;
 
     public static ProjectPojo fromEntity (Project project) {
