@@ -1,4 +1,4 @@
-package com.study.first_lab.сontroller;
+package com.study.first_lab.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

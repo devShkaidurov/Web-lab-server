@@ -1,0 +1,12 @@
+com\study\first_lab\dto\TaskPojo.class
+com\study\first_lab\FirstLabApplication.class
+com\study\first_lab\dao\ITaskDAO.class
+com\study\first_lab\models\Task.class
+com\study\first_lab\dto\TaskDto.class
+com\study\first_lab\models\Project.class
+com\study\first_lab\dao\IProjectDAO.class
+com\study\first_lab\controller\ProjectController.class
+com\study\first_lab\controller\TaskController.class
+com\study\first_lab\service\TaskService.class
+com\study\first_lab\service\ProjectService.class
+com\study\first_lab\dto\ProjectPojo.class
